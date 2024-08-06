@@ -1,5 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:subasta_landing/constants.dart';
 import 'landing_page_controller.dart';
 
 class LandingPageView extends StatelessWidget {
@@ -13,22 +17,38 @@ class LandingPageView extends StatelessWidget {
           children: [
             // Banner Section
             Container(
-              height: MediaQuery.of(context).size.height,
+              height: MediaQuery.of(context).size.height * 0.5,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage('assets/banner.jpg'), // Add your banner image here
+                  image: AssetImage('assets/bgelcorral.jpg'),
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Center(
-                child: Text(
-                  'Bienvenido a Subasta El Corral',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontWeight: FontWeight.bold,
+              child: Stack(
+                children: [
+                  Positioned(
+                    bottom: 0,
+                    left: 20,
+                    right: 20,
+                    child: Container(
+                      width: double.infinity,
+                     // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.6),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        welcome,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 32,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             ),
             // Acerca de Nosotros Section
@@ -44,7 +64,7 @@ class LandingPageView extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'SUBASTA EL CORRAL S.A es una empresa dedicada a la subasta y comercialización de ganado de alta calidad. Nuestra misión es proporcionar un mercado transparente y eficiente para nuestros clientes.',
+                    qsomos,
                     style: TextStyle(fontSize: 16),
                   ),
                 ],
@@ -97,8 +117,85 @@ class LandingPageView extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Text(
-                    'Puedes contactarnos a través del correo electrónico contacto@subastaelcorral.com o llamarnos al (123) 456-7890. Estamos ubicados en Calle Falsa 123, Ciudad, País.',
+                    contact,
                     style: TextStyle(fontSize: 16),
+                  ),
+                ],
+              ),
+            ),
+            // Footer Section
+            Container(
+              padding: EdgeInsets.all(16.0),
+              color: Colors.black,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.facebook, color: Colors.white),
+                        onPressed: () {
+                          Link("https://www.facebook.com/SubastaGanaderaElCorral");
+                        },
+                      ),
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.twitter, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.youtube, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                      IconButton(
+                        icon: FaIcon(FontAwesomeIcons.instagram, color: Colors.white),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '© 2024 Subasta El Corral S.A.',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'Tipitapa, Managua',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Privacidad',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Accesibilidad',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {},
+                        child: Text(
+                          'Términos',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
