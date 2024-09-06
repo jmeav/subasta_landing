@@ -1,13 +1,33 @@
-import 'dart:io';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:subasta_landing/constants.dart';
-import 'landing_page_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
-class LandingPageView extends StatelessWidget {
-  final LandingPageController controller = Get.put(LandingPageController());
+class LandingPageView extends StatefulWidget {
+  @override
+  _LandingPageViewState createState() => _LandingPageViewState();
+}
+
+class _LandingPageViewState extends State<LandingPageView> {
+  String qsomos =
+      "En La Subasta El Corral, somos más que una empresa, somos una familia unida por la pasión y el compromiso. Cada uno de nuestros miembros contribuye al éxito colectivo, creando un ambiente de colaboración y apoyo mutuo. Nos enorgullece ser el único lugar donde cada cliente es atendido con la dedicación y el respeto que se merece, asegurando una experiencia excepcional en cada visita. Únete a nosotros y descubre la diferencia de ser parte de una verdadera comunidad, donde el éxito no es solo un objetivo, sino una realidad compartida";
+  String contact =
+      'Puedes contactarnos a través del correo electrónico contacto@subastaelcorral.com o llamarnos al +505 8584 8751 & +505 8222 4139. Estamos ubicados en Km 24 Panamericana Norte (Viniendo de Managua a Mano derecha).';
+  String welcome = "BIENVENIDO A SUBASTA EL CORRAL ONLINE";
+
+  bool isVisible = false;
+
+  @override
+  void initState() {
+    super.initState();
+    // Esto hará que el texto de bienvenida aparezca suavemente
+    Future.delayed(Duration(milliseconds: 500), () {
+      setState(() {
+        isVisible = true;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,21 +50,31 @@ class LandingPageView extends StatelessWidget {
                     bottom: 0,
                     left: 20,
                     right: 20,
-                    child: Container(
-                      width: double.infinity,
-                     // padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.6),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        welcome,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32,
-                          fontWeight: FontWeight.bold,
+                    child: AnimatedOpacity(
+                      opacity: isVisible ? 1.0 : 0.0,
+                      duration: Duration(seconds: 1),
+                      child: Container(
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.6),
+                          borderRadius: BorderRadius.circular(10),
                         ),
-                        textAlign: TextAlign.center,
+                        child: Text(
+                          welcome,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: MediaQuery.of(context).size.width > 600 ? 32 : 24, // Tamaño del texto responsive
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10.0,
+                                color: Colors.black.withOpacity(0.5),
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
                       ),
                     ),
                   ),
@@ -78,7 +108,7 @@ class LandingPageView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Tecnologías',
+                    'Nuestra Tecnología',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 16),
@@ -87,16 +117,43 @@ class LandingPageView extends StatelessWidget {
                     children: [
                       Column(
                         children: [
-                          Image.asset('assets/png2.png', width: 100, height: 100),
+                          Image.asset('assets/png1.png',
+                              width: 100, height: 100),
                           SizedBox(height: 8),
-                          Text('Te lo llevo ya', style: TextStyle(fontSize: 16)),
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Image.asset('assets/png1.png', width: 100, height: 100),
-                          SizedBox(height: 8),
-                          Text('Marketplace ganadero', style: TextStyle(fontSize: 16)),
+                          Text(
+                            'Marketplace El corral S.A',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          Text(
+                            '¡Donde comprar ganado nunca fue tan fácil!',
+                            style: TextStyle(fontSize: 16),
+                          ),
+                          SizedBox(height: 16),
+                          ElevatedButton(
+                            onPressed: () {
+                              // Acción al hacer clic en el botón
+                            },
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 15),
+                              backgroundColor: Colors.green, // Color de fondo
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(
+                                    30), // Borde redondeado
+                              ),
+                              elevation: 8, // Sombra del botón
+                              shadowColor: Colors.black
+                                  .withOpacity(0.5), // Color de la sombra
+                            ),
+                            child: Text(
+                              'Acceder al Market',
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white, // Color del texto
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     ],
@@ -125,7 +182,7 @@ class LandingPageView extends StatelessWidget {
             ),
             // Footer Section
             Container(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(80.0),
               color: Colors.black,
               child: Column(
                 children: [
@@ -133,37 +190,47 @@ class LandingPageView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       IconButton(
-                        icon: FaIcon(FontAwesomeIcons.facebook, color: Colors.white),
-                        onPressed: () {
-                          Link("https://www.facebook.com/SubastaGanaderaElCorral");
+                        icon: FaIcon(FontAwesomeIcons.facebook,
+                            color: Colors.white),
+                        onPressed: () async {
+                          const url =
+                              'https://www.facebook.com/SubastaGanaderaElCorral';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
                         },
                       ),
                       IconButton(
-                        icon: FaIcon(FontAwesomeIcons.twitter, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: FaIcon(FontAwesomeIcons.youtube, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: FaIcon(FontAwesomeIcons.linkedin, color: Colors.white),
-                        onPressed: () {},
-                      ),
-                      IconButton(
-                        icon: FaIcon(FontAwesomeIcons.instagram, color: Colors.white),
-                        onPressed: () {},
+                        icon: FaIcon(FontAwesomeIcons.tiktok,
+                            color: Colors.white),
+                        onPressed: () async {
+                          const url =
+                              'https://www.tiktok.com/@subasta.el.corral?_t=8pVAEAEwrag&_r=1';
+                          if (await canLaunch(url)) {
+                            await launch(url);
+                          } else {
+                            throw 'Could not launch $url';
+                          }
+                        },
                       ),
                     ],
                   ),
                   SizedBox(height: 16),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         '© 2024 Subasta El Corral S.A.',
                         style: TextStyle(color: Colors.white),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 16),
+                    Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
                       Text(
                         'Tipitapa, Managua',
                         style: TextStyle(color: Colors.white),
@@ -171,8 +238,8 @@ class LandingPageView extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: 16),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Wrap(
+                    alignment: WrapAlignment.center,
                     children: [
                       TextButton(
                         onPressed: () {},
